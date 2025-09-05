@@ -73,7 +73,7 @@
       A1: "أرسنال",
       B1: "توتنهام",
       C1: "برينتفورد",
-      D1: "مانشستر سيتي",
+      D1: "وست هام",
       E1: "كريستال بالاس",
       A2: "ليدز يونايتد",
       B2: "ليستر سيتي",
@@ -90,6 +90,29 @@
       C4: "وولفرهامبتون",
       D4: "برايتون",
       E4: "نوتنغهام فوريست"
+    };
+
+    const altAnswers = {
+      "أرسنال": ["arsenal"],
+      "توتنهام": ["tottenham"],
+      "برينتفورد": ["brentford"],
+      "وست هام": ["westham", "west ham", "hammers"],
+      "كريستال بالاس": ["palace", "crystal palace"],
+      "ليدز يونايتد": ["leeds", "leeds united"],
+      "ليستر سيتي": ["leicester", "leicester city"],
+      "فولهام": ["fulham"],
+      "ساوثهامبتون": ["southampton"],
+      "أستون فيلا": ["villa", "aston villa"],
+      "تشيلسي": ["chelsea"],
+      "ليفربول": ["liverpool"],
+      "إيفرتون": ["everton"],
+      "بورنموث": ["bournemouth"],
+      "نيوكاسل": ["newcastle"],
+      "مانشستر سيتي": ["man city", "manchester city"],
+      "مانشستر يونايتد": ["man united", "manchester united"],
+      "وولفرهامبتون": ["wolves", "wolverhampton"],
+      "برايتون": ["brighton"],
+      "نوتنغهام فوريست": ["nottingham", "nottingham forest"]
     };
 
     const clues = {
@@ -153,13 +176,13 @@
           }
 
           input.addEventListener("change", () => {
-            const answer = input.value.trim();
+            const answer = input.value.trim().toLowerCase().replace(/\s|\u200f/g, "");
             const correct = correctAnswers[cellKey];
             if (!correct) return;
-            const normalized = answer.replace(/\s|\u200f/g, "");
-            const target = correct.replace(/\s|\u200f/g, "");
 
-            if (target.includes(normalized) || normalized.includes(target)) {
+            const validAnswers = [correct.replace(/\s|\u200f/g, "").toLowerCase()].concat((altAnswers[correct] || []).map(v => v.replace(/\s|\u200f/g, "").toLowerCase()));
+
+            if (validAnswers.includes(answer)) {
               input.disabled = true;
               cell.classList.add("correct");
               clue.style.display = "block";
