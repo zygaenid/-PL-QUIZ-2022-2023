@@ -2,216 +2,175 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>لعبة ترتيب الفرق</title>
+  <title>تحدي أندية البريميرليغ - موسم 2022/2023</title>
   <style>
-    body { font-family: 'Arial', sans-serif; background: #f2f2f2; text-align: center; }
-    table { border-collapse: collapse; margin: 30px auto; direction: ltr; }
-    td, th {
-      width: 160px; height: 100px;
-      border: 2px solid #444;
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: #f7f7f7;
+      text-align: center;
+      direction: rtl;
+    }
+    h1 {
+      margin: 20px;
+    }
+    #grid {
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(6, 120px);
+      gap: 2px;
+    }
+    .cell {
+      border: 1px solid #999;
+      padding: 8px;
       background: white;
-      font-size: 15px;
-      vertical-align: middle;
-      text-align: center;
-      position: relative;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
-    td.revealed { background: #ffe0e0; color: #333; }
-    input {
-      width: 90%; padding: 8px; font-size: 14px;
-      text-align: center;
+    .header {
+      background: #e0e0e0;
+      font-weight: bold;
     }
-    .message {
-      font-size: 20px; color: red; margin-top: 20px;
-    }
-    #retryBtn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      display: none;
-      background-color: #d9534f;
-      color: white;
+    .input {
+      width: 100%;
       border: none;
-      border-radius: 6px;
-      cursor: pointer;
+      text-align: center;
+      font-size: 14px;
     }
-    #player-name {
-      margin-top: 20px;
-    }
-    thead th {
-      background: #ddd;
-      font-weight: bold;
-    }
-    tbody th {
-      background: #eee;
-      font-weight: bold;
-    }
-    .team-name {
-      font-weight: bold;
-      display: block;
-    }
-    .clue-text {
+    .clue {
       font-size: 12px;
-      display: block;
-      margin-top: 5px;
-      color: #444;
+      margin-top: 4px;
+      color: #555;
+      display: none;
+    }
+    .correct {
+      background-color: #c9f7c9;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-<h2>🔍 لعبة ترتيب فرق الدوري الإنجليزي</h2>
-<p><strong>الموسم 2022 - 2023</strong></p>
-<p>اكتب اسم الفريق الصحيح في الخانة. اختيار واحد خاطئ ينهي اللعبة!</p>
-<div id="player-name">
-  <label>اسمك: <input type="text" id="nameInput" placeholder="أدخل اسمك هنا"></label>
-</div>
-<table id="quiz-grid">
-  <thead>
-    <tr>
-      <th></th>
-      <th>A</th>
-      <th>B</th>
-      <th>C</th>
-      <th>D</th>
-      <th>E</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1</th>
-      <td class="revealed"><span class="team-name">آرسنال</span><span class="clue-text">المدرب الحالي لهذا الفريق كان مساعدًا لمدرب الفريق الموجود في أسفل هذا العمود.</span></td>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-      <td><input></td>
-    </tr>
-  </tbody>
-</table>
-<div class="message" id="message"></div>
-<button id="retryBtn" onclick="location.reload()">🔁 أعد المحاولة</button>
-<script>
-  const answers = {
-    "0,0": "آرسنال",
-    "0,1": "توتنهام هوتسبر",
-    "0,2": "برينتفورد",
-    "0,3": "وست هام يونايتد",
-    "0,4": "كريستال بالاس",
-    "1,0": "ليستر سيتي",
-    "1,1": "ليدز يونايتد",
-    "1,2": "فولهام",
-    "1,3": "ساوثهامبتون",
-    "1,4": "تشيلسي",
-    "2,0": "ليفربول",
-    "2,1": "بورنموث",
-    "2,2": "أستون فيلا",
-    "2,3": "برايتون وهوف ألبيون",
-    "2,4": "نيوكاسل يونايتد",
-    "3,0": "مانشستر سيتي",
-    "3,1": "مانشستر يونايتد",
-    "3,2": "نوتنغهام فورست",
-    "3,3": "وولفرهامبتون",
-    "3,4": "إيفرتون"
-  };
+  <h1>تحدي أندية البريميرليغ - موسم 2022/2023</h1>
+  <p>أدخل اسم الفريق في الخانة الصحيحة لتكشف التلميح. خطأ واحد يُنهي اللعبة!</p>
+  <div style="margin-bottom:10px">
+    <input type="text" id="username" placeholder="اكتب اسمك لبدء التحدي">
+    <button onclick="startQuiz()">ابدأ</button>
+    <button onclick="resetGame()">إعادة المحاولة</button>
+  </div>
+  <div id="grid"></div>
+  <div id="result"></div>
 
-  const synonyms = {
-    "مانشستر سيتي": ["مان سيتي", "السيتي", "سيتي"],
-    "مانشستر يونايتد": ["مان يونايتد", "اليونايتد", "مان يو"],
-    "نوتنغهام فورست": ["فورست"],
-    "كريستال بالاس": ["بالاس"],
-    "وولفرهامبتون": ["وولفز", "وولفز هامبتون"]
-  };
+  <script>
+    const headers = ["", "A", "B", "C", "D", "E"];
+    const rows = ["1", "2", "3", "4"];
+    const correctAnswers = {
+      A1: "أرسنال",
+      B1: "توتنهام",
+      C1: "برينتفورد",
+      D1: "مانشستر سيتي",
+      E1: "كريستال بالاس",
+      A2: "ليدز يونايتد",
+      B2: "ليستر سيتي",
+      C2: "فولهام",
+      D2: "ساوثهامبتون",
+      E2: "أستون فيلا",
+      A3: "تشيلسي",
+      B3: "ليفربول",
+      C3: "إيفرتون",
+      D3: "بورنموث",
+      E3: "نيوكاسل",
+      A4: "مانشستر سيتي",
+      B4: "مانشستر يونايتد",
+      C4: "وولفرهامبتون",
+      D4: "برايتون",
+      E4: "نوتنغهام فوريست"
+    };
 
-  const clues = {
-    "0,1": "الفرق الواقعة على الساحل الجنوبي توجد في العمود الرابع. أشخاص يتمتعون بقداسة استثنائية يوجدون في D2.",
-    "1,1": "الفرق التي درّبها ستيف بروس أو يدربها حاليًا توجد في نفس العمود.",
-    "2,1": "الفرق التي درّبها إيدي هاو أو يدربها حاليًا توجد في هذا الصف.",
-    "3,1": "الصف الأول يتكوّن من فرق لندنية.",
-    "0,2": "كوخ جميل يوجد أسفلي مباشرة. الخصم الآخر الكبير لمانشستر يونايتد يوجد فوقي مباشرة.",
-    "1,2": "المطارق يبنون القصور، لذا فهم بجوار بعضهم البعض. يمكن العثور على الأشجار في إحدى الزوايا.",
-    "1,3": "مبنى تعيش فيه العائلة الملكية يوجد في E1.",
-    "3,3": "يوجد فريق في العمود الأول يحمل راعي قميص يتطابق مع رقم صفّه.",
-    "0,4": "منافسيهم في الديربي يوجدون في الصف السفلي.",
-    "2,4": "ناديان يشتركان في أول حرفين من اسميهما، وموجودان في الصف الثاني وتم إقرانهما حسب الترتيب الأبجدي.",
-    "3,4": "الذئاب تركض إلى يسار طيور النورس الطائرة."
-  };
+    const clues = {
+      A1: "الفريق الذي كان مدربه الحالي مساعدًا لمدرب الفريق الموجود في أسفل هذا العمود.",
+      B1: "فرق الساحل الجنوبي تقع في العمود الرابع. الأشخاص ذوو القداسة الاستثنائية في D2.",
+      C1: "الكوخ الجميل يوجد تحته مباشرة. الغريم الآخر لمانشستر يونايتد موجود فوقه مباشرة.",
+      E1: "خصومهم في ديربي M23 موجودون في الصف السفلي.",
+      B2: "الفرق التي دربها ستيف بروس أو يدربها الآن موجودة في نفس العمود.",
+      C2: "المطارق يبنون القصور، لذا هم بجوار بعضهم البعض.",
+      D2: "مبنى تعيش فيه العائلة الملكية موجود في E1.",
+      A3: "الخصوم من نفس منطقة لندن موجودون في العمود الثالث.",
+      B3: "الفرق التي دربها إيدي هاو أو يدربها الآن موجودة في هذا الصف.",
+      E3: "ناديان يشتركان في أول حرفين من اسميهما مرتبان أبجديًا، ويقعان في الصف الثاني.",
+      A4: "الخصومات الكبرى أو مباريات الديربي تكون على شكل أزواج. يمكن العثور على خلية نحل في الصف الأول.",
+      B4: "الصف الأول يتكون من فرق من لندن.",
+      D4: "يوجد فريق يتطابق راعي قميصه مع رقم صفه في العمود الأول.",
+      E4: "الذئاب تركض على يسار طيور النورس الطائرة."
+    };
 
-  const normalize = str => str
-    .replace(/[إأآا]/g, 'ا')
-    .replace(/[ى]/g, 'ي')
-    .replace(/[ة]/g, 'ه')
-    .replace(/\s+/g, '')
-    .toLowerCase()
-    .trim();
+    function startQuiz() {
+      const username = document.getElementById("username").value.trim();
+      if (!username) return alert("الرجاء إدخال الاسم أولاً");
+      buildGrid();
+    }
 
-  const isCloseMatch = (input, answer) => {
-    const val = normalize(input);
-    const full = normalize(answer);
-    const alt = synonyms[answer] || [];
-    return (
-      val === full ||
-      full.startsWith(val) ||
-      full.includes(val) ||
-      alt.some(name => normalize(name) === val || normalize(name).includes(val))
-    );
-  };
+    function buildGrid() {
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
 
-  const grid = document.querySelectorAll("#quiz-grid input");
-  let correctCount = 0;
+      headers.forEach(h => {
+        const cell = document.createElement("div");
+        cell.textContent = h;
+        cell.className = "cell header";
+        grid.appendChild(cell);
+      });
 
-  grid.forEach(input => {
-    input.addEventListener("change", () => {
-      const td = input.parentElement;
-      const row = td.parentElement.rowIndex - 1;
-      const col = td.cellIndex - 1;
-      const key = `${row},${col}`;
-      const expected = answers[key];
-      if (!expected) { lose(); return; }
-      if (isCloseMatch(input.value, expected)) {
-        td.innerHTML = `<span class='team-name'>${expected}</span><span class='clue-text'>${clues[key] || ''}</span>`;
-        td.classList.add("revealed");
-        correctCount++;
-        if (correctCount === 20) {
-          const name = document.getElementById("nameInput").value.trim();
-          if (name) {
-            alert(`🎉 أحسنت يا ${name}! لقد أكملت التحدي بنجاح.`);
-          } else {
-            alert("🎉 أحسنت! لقد أكملت التحدي بنجاح.");
-          }
+      rows.forEach((row, rIdx) => {
+        const rowLabel = document.createElement("div");
+        rowLabel.textContent = row;
+        rowLabel.className = "cell header";
+        grid.appendChild(rowLabel);
+
+        for (let c = 1; c < headers.length; c++) {
+          const col = headers[c];
+          const cellKey = col + row;
+          const cell = document.createElement("div");
+          cell.className = "cell";
+          const input = document.createElement("input");
+          input.className = "input";
+          input.dataset.key = cellKey;
+
+          const clue = document.createElement("div");
+          clue.className = "clue";
+          clue.textContent = clues[cellKey] || "";
+
+          input.addEventListener("change", () => {
+            const answer = input.value.trim();
+            const correct = correctAnswers[cellKey];
+            if (!correct) return;
+            const normalized = answer.replace(/\s|\u200f/g, "");
+            const target = correct.replace(/\s|\u200f/g, "");
+
+            if (target.includes(normalized) || normalized.includes(target)) {
+              input.disabled = true;
+              cell.classList.add("correct");
+              clue.style.display = "block";
+            } else {
+              document.getElementById("result").textContent = "إجابة خاطئة! اللعبة انتهت.";
+              document.querySelectorAll(".input").forEach(i => i.disabled = true);
+            }
+          });
+
+          cell.appendChild(input);
+          cell.appendChild(clue);
+          grid.appendChild(cell);
         }
-      } else {
-        lose();
-      }
-    });
-  });
+      });
+    }
 
-  function lose() {
-    document.getElementById("message").textContent = "❌ إجابة غير صحيحة! انتهت المحاولة.";
-    document.getElementById("retryBtn").style.display = 'inline-block';
-    document.querySelectorAll("#quiz-grid input").forEach(input => input.disabled = true);
-  }
-</script>
+    function resetGame() {
+      location.reload();
+    }
+  </script>
 </body>
 </html>
