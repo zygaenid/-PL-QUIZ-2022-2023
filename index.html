@@ -5,8 +5,8 @@
   <title>لعبة ترتيب الفرق</title>
   <style>
     body { font-family: 'Arial', sans-serif; background: #f2f2f2; text-align: center; }
-    table { border-collapse: collapse; margin: 30px auto; direction: rtl; }
-    td {
+    table { border-collapse: collapse; margin: 30px auto; direction: ltr; }
+    td, th {
       width: 160px; height: 100px;
       border: 2px solid #444;
       background: white;
@@ -37,6 +37,14 @@
     #player-name {
       margin-top: 20px;
     }
+    thead th {
+      background: #ddd;
+      font-weight: bold;
+    }
+    tbody th {
+      background: #eee;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -46,8 +54,19 @@
   <label>اسمك: <input type="text" id="nameInput" placeholder="أدخل اسمك هنا"></label>
 </div>
 <table id="quiz-grid">
+  <thead>
+    <tr>
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+      <th>E</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
+      <th>1</th>
       <td class="revealed">آرسنال<br><small>المدرب الحالي لهذا الفريق كان مساعدًا لمدرب الفريق الموجود في أسفل هذا العمود.</small></td>
       <td><input></td>
       <td><input></td>
@@ -55,6 +74,7 @@
       <td><input></td>
     </tr>
     <tr>
+      <th>2</th>
       <td><input></td>
       <td><input></td>
       <td><input></td>
@@ -62,6 +82,7 @@
       <td><input></td>
     </tr>
     <tr>
+      <th>3</th>
       <td><input></td>
       <td><input></td>
       <td><input></td>
@@ -69,6 +90,7 @@
       <td><input></td>
     </tr>
     <tr>
+      <th>4</th>
       <td><input></td>
       <td><input></td>
       <td><input></td>
@@ -87,20 +109,20 @@
     "0,3": "وست هام يونايتد",
     "0,4": "كريستال بالاس",
     "1,0": "ليستر سيتي",
-    "1,1": "ليستر سيتي",
+    "1,1": "ليدز يونايتد",
     "1,2": "فولهام",
     "1,3": "ساوثهامبتون",
     "1,4": "تشيلسي",
     "2,0": "ليفربول",
-    "2,1": "ليفربول",
-    "2,2": "ليدز يونايتد",
-    "2,3": "بورنموث",
+    "2,1": "بورنموث",
+    "2,2": "أستون فيلا",
+    "2,3": "برايتون وهوف ألبيون",
     "2,4": "نيوكاسل يونايتد",
-    "3,0": "مانشستر يونايتد",
+    "3,0": "مانشستر سيتي",
     "3,1": "مانشستر يونايتد",
-    "3,2": "أستون فيلا",
-    "3,3": "برايتون وهوف ألبيون",
-    "3,4": "نوتنغهام فورست",
+    "3,2": "نوتنغهام فورست",
+    "3,3": "وولفرهامبتون",
+    "3,4": "إيفرتون"
   };
 
   const clues = {
@@ -123,8 +145,8 @@
   grid.forEach(input => {
     input.addEventListener("change", () => {
       const td = input.parentElement;
-      const row = td.parentElement.rowIndex;
-      const col = td.cellIndex;
+      const row = td.parentElement.rowIndex - 1;
+      const col = td.cellIndex - 1;
       const key = `${row},${col}`;
       const val = normalize(input.value);
       const answer = normalize(answers[key] || "");
