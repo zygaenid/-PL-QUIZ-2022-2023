@@ -53,6 +53,12 @@
       margin-top: 20px;
       font-weight: bold;
     }
+    #congrats {
+      margin-top: 20px;
+      font-size: 18px;
+      color: green;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -65,6 +71,7 @@
   </div>
   <div id="grid"></div>
   <div id="result"></div>
+  <div id="congrats"></div>
 
   <script>
     const headers = ["", "A", "B", "C", "D", "E"];
@@ -116,7 +123,7 @@
     };
 
     const clues = {
-      A1: "الفريق الذي مدربه الحالي كان مساعدًا لفريق موجود في أسفل هذا العمود.",
+      A1: "مدربه الحالي كان مساعدًا لفريق موجود في أسفل هذا العمود.",
       B1: "لالانا لعب ل ٣ فرق في العمود الرابع/الأشخاص ذوو القداسة الاستثنائية في D2.",
       C1: "الكوخ الجميل يوجد تحته مباشرة. الغريم الآخر لمانشستر يونايتد موجود فوقه مباشرة.",
       E1: "خصومهم في الديربي موجودون في الصف السفلي.",
@@ -126,7 +133,7 @@
       A3: "نادي الشعب موجود في العمود الثالث.",
       B3: "الفرق التي دربها إيدي هاو أو يدربها الآن موجودة في هذا الصف.",
       E3: "ناديان يشتركان في أول حرفين من اسميهما مرتبان ابجديا جنب بعض.",
-      A4: "مباريات الديربي الكبرى جنب بعض/ يمكن العثور على خلية نحل في الصف الأول.",
+      A4: "مباريات الديربي الكبرى جنب بعض/ يمكن العثور على خلية نحل في العامود الثالث.",
       B4: "الصف الأول يتكون من فرق فقط من لندن.",
       D4: "يوجد فريق يتطابق راعي قميصه مع رقم صفه في العمود الأول.",
       E4: "الذئاب تركض جنب طيور النورس."
@@ -135,12 +142,14 @@
     function startQuiz() {
       const username = document.getElementById("username").value.trim();
       if (!username) return alert("الرجاء إدخال الاسم أولاً");
-      buildGrid();
+      buildGrid(username);
     }
 
-    function buildGrid() {
+    function buildGrid(username) {
       const grid = document.getElementById("grid");
       grid.innerHTML = "";
+      document.getElementById("congrats").textContent = "";
+      document.getElementById("result").textContent = "";
 
       headers.forEach(h => {
         const cell = document.createElement("div");
@@ -187,6 +196,16 @@
               input.disabled = true;
               cell.classList.add("correct");
               clue.style.display = "block";
+
+              // Check if all are correct
+              const allCorrect = Array.from(document.querySelectorAll(".input"))
+                .every(inp => inp.disabled);
+
+              if (allCorrect) {
+                const name = document.getElementById("username").value;
+                document.getElementById("congrats").textContent = `🎉 مبروك ${name} !`;
+              }
+
             } else {
               document.getElementById("result").textContent = "إجابة خاطئة! اللعبة انتهت.";
               document.querySelectorAll(".input").forEach(i => i.disabled = true);
